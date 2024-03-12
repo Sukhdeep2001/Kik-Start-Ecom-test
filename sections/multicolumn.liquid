@@ -1,6 +1,7 @@
 {{ 'section-multicolumn.css' | asset_url | stylesheet_tag }}
 {{ 'component-slider.css' | asset_url | stylesheet_tag }}
-
+{{ 'custom.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'global.js' | asset_url }}" defer="defer"></script>
 {%- style -%}
   .section-{{ section.id }}-padding {
     padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
@@ -83,9 +84,6 @@
                 <div class="multicolumn-card__image-wrapper multicolumn-card__image-wrapper--{{ section.settings.image_width }}-width{% if section.settings.image_width != 'full' or spaced_image %} multicolumn-card-spacing{% endif %}">
                   <div
                     class="media media--transparent media--{{ section.settings.image_ratio }}"
-                    {% if section.settings.image_ratio == 'adapt' %}
-                      style="padding-bottom: {{ 1 | divided_by: highest_ratio | times: 100 }}%;"
-                    {% endif %}
                   >
                     {%- liquid
                       assign number_of_columns = section.settings.columns_desktop
@@ -127,7 +125,7 @@
                 {%- endif -%}
                 {%- if block.settings.link_label != blank -%}
                   <a
-                    class="link animate-arrow"
+                    class="link animate-arrow" id="learnMoreBtn_{{ block.id }}" data-modal-target="popupModal_{{ block.id }}"
                     {% if block.settings.link == blank %}
                       role="link" aria-disabled="true"
                     {% else %}
@@ -139,8 +137,61 @@
                   >
                 {%- endif -%}
               </div>
-            </div>
+            </div> 
           </li>
+          <!-- Popup Modal Structure -->
+          <div id="popupModal_{{ block.id }}" class="modal">
+            <div class="modal-content">
+              <span class="closeBtn">&times;</span>
+              <div class="multicolumn-card content-container">
+              {%- if block.settings.image != blank -%}
+                {% if section.settings.image_ratio == 'adapt' or section.settings.image_ratio == 'circle' %}
+                  {% assign spaced_image = true %}
+                {% endif %}
+                <div class="multicolumn-card__image-wrapper multicolumn-card__image-wrapper--{{ section.settings.image_width }}-width{% if section.settings.image_width != 'full' or spaced_image %} multicolumn-card-spacing{% endif %}">
+                  <div>
+                    {%- liquid
+                      assign number_of_columns = section.settings.columns_desktop
+                      assign number_of_columns_mobile = section.settings.columns_mobile
+                      assign grid_space_desktop = number_of_columns | minus: 1 | times: settings.spacing_grid_horizontal | plus: 100 | append: 'px'
+                      assign grid_space_tablet = number_of_columns_mobile | minus: 1 | times: settings.spacing_grid_horizontal | plus: 100 | append: 'px'
+                      assign grid_space_mobile = number_of_columns_mobile | minus: 1 | times: settings.spacing_grid_horizontal | divided_by: 2 | plus: 30 | append: 'px'
+                      if section.settings.image_width == 'half'
+                        assign image_width = 0.5
+                      elsif section.settings.image_width == 'third'
+                        assign image_width = 0.33
+                      else
+                        assign image_width = 1
+                      endif
+                    -%}
+                    {% capture sizes %}
+                      (min-width: {{ settings.page_width }}px) calc(({{ settings.page_width }}px - {{ grid_space_desktop }}) * {{ image_width }} /  {{ number_of_columns }}),
+                      (min-width: 990px) calc((100vw - {{ grid_space_desktop }}) * {{ image_width }} / {{ number_of_columns }}),
+                      (min-width: 750px) calc((100vw - {{ grid_space_tablet }}) * {{ image_width }} / {{ number_of_columns_mobile }}),
+                      calc((100vw - {{ grid_space_mobile }}) * {{ image_width }} / {{ number_of_columns_mobile }})
+                    {% endcapture %}
+                    {{
+                      block.settings.image
+                      | image_url: width: 3200
+                      | image_tag:
+                        widths: '50, 75, 100, 150, 200, 300, 400, 500, 750, 1000, 1250, 1500, 1750, 2000, 2250, 2500, 2750, 3000, 3200',
+                        sizes: sizes,
+                        class: 'multicolumn-card__image'
+                    }}
+                  </div>
+                </div>
+              {%- endif -%}
+              <div class="multicolumn-card__info">
+                {%- if block.settings.title != blank -%}
+                  <h3 class="inline-richtext">{{ block.settings.title }}</h3>
+                {%- endif -%}
+                {%- if block.settings.text != blank -%}
+                  <div class="rte">{{ block.settings.text2 }}</div>
+                {%- endif -%}
+              </div>
+            </div>
+            </div>
+          </div>
         {%- endfor -%}
       </ul>
 
@@ -187,6 +238,9 @@
     </div>
   </div>
 </div>
+ 
+
+
 
 {% schema %}
 {
@@ -402,6 +456,12 @@
           "label": "t:sections.multicolumn.blocks.column.settings.text.label"
         },
         {
+          "type": "richtext",
+          "id": "text2",
+          "default": "<p>Pair text with an image to focus on your chosen product, collection, or blog post. Add details on availability, style, or even provide a review.</p>",
+          "label": "t:sections.multicolumn.blocks.column.settings.text.label"
+        },
+        {
           "type": "text",
           "id": "link_label",
           "label": "t:sections.multicolumn.blocks.column.settings.link_label.label"
@@ -432,3 +492,4 @@
   ]
 }
 {% endschema %}
+

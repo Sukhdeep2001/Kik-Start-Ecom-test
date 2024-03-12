@@ -1,0 +1,121 @@
+ /* Tab Links */
+ .tabs {
+    overflow: hidden;
+    
+    font-family: Arial;
+  }
+  
+  .tab-links {
+    background-color: inherit;
+    float: left;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    padding: 14px 16px;
+    transition: background-color 0.3s;
+    font-size: 17px;
+    text-transform: uppercase;
+  }
+  #collectionTitle{
+    text-transform: uppercase;
+  }
+  
+  /* Tab Content */
+  .tab-content {
+    display: none;
+    padding: 6px 12px;
+    border: 1px solid #ccc;
+    border-top: none;
+  }
+  
+  /* Display the first tab by default */
+  .tab-content:first-of-type {
+    display: block;
+  }
+  .tabs{
+    margin: 0 auto;
+    max-width: 1135px;
+  }
+
+
+
+  /* CSS USED FOR POPUP MODAL */
+
+/* The Modal (background) */
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+/* Modal Content */
+.modal-content {
+  background-color: #fefefe;
+  margin: 5% auto; /* Reduced margin from the top for all screens */
+  padding: 20px;
+  border: 1px solid #888;
+  width: 90%; /* Start with 90% for small screens */
+  max-width: 900px; /* Maximum width for larger screens */
+}
+.multicolumn{
+  background: #f2f2f2 !important;
+}
+/* The Close Button */
+.closeBtn {
+  color: #aaa;
+  font-size: 28px;
+  font-weight: bold;
+}
+.modal-content .media{
+  padding-bottom: 20%;
+}
+.modal-content .multicolumn-card{
+  display: inline-grid;
+  grid-template-columns: 1fr 3fr;
+}
+.closeBtn:hover,
+.closeBtn:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+/* Responsive adjustments */
+@media (min-width: 768px) {
+  .modal-content {
+    width: 70%; /* Adjust width on medium screens */
+  }
+}
+
+@media (min-width: 992px) {
+  .modal-content {
+    width: 60%; /* Further adjust width on large screens */
+  }
+}
+
+@media (min-width: 1200px) {
+  .modal-content {
+    margin: 2% auto; /* Less margin on very large screens */
+  }
+}
+
+@media (max-width: 1000px){
+  .modal-content .multicolumn-card{
+    display: inline-grid;
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+}
+
+@media (max-width: 991px){
+  .modal-content .media{
+    padding-bottom: 15%;
+  }
+}

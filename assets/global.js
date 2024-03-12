@@ -1283,3 +1283,84 @@ class ProductRecommendations extends HTMLElement {
 }
 
 customElements.define('product-recommendations', ProductRecommendations);
+
+
+
+
+//Vanilla Js Used to create tabs in shopify collection page 
+
+document.addEventListener('DOMContentLoaded', function () {
+  window.openCollection = function (evt, collectionName, collectionTitle, collectionDescription) {
+      var i, tabcontent, tablinks;
+      tabcontent = document.getElementsByClassName("tab-content");
+      for (i = 0; i < tabcontent.length; i++) {
+          tabcontent[i].style.display = "none";
+      }
+      tablinks = document.getElementsByClassName("tab-links");
+      for (i = 0; i < tablinks.length; i++) {
+          tablinks[i].className = tablinks[i].className.replace(" active", "");
+      }
+      document.getElementById(collectionName).style.display = "block";
+      evt.currentTarget.className += " active";
+
+      document.getElementById('collectionTitle').innerText = collectionTitle;
+      document.getElementById('collectionDescription').innerHTML = collectionDescription;
+
+      // Initialize filters for the active tab.
+      initializeFiltersForTheShownTab(collectionName); 
+  };
+  
+  // Click the first tab to initialize the page correctly.
+  var firstTab = document.getElementsByClassName("tab-links")[0];
+  if (firstTab) {
+      firstTab.click();
+  }
+}); 
+
+
+document.addEventListener('DOMContentLoaded', function () {
+  // Function to close all modals
+  function closeAllModals() {
+    document.querySelectorAll('.modal').forEach(function(modal) {
+      modal.style.display = 'none';
+      document.body.classList.remove('modal-open'); // Use a consistent body class for open modals
+    });
+  }
+
+  // Function to initialize event listeners
+  function initializeModalEvents() {
+    // Attach event listeners to all buttons that open modals
+    document.querySelectorAll('[data-modal-target]').forEach(function(button) {
+      button.addEventListener('click', function() {
+        const modalId = button.getAttribute('data-modal-target');
+        const modal = document.getElementById(modalId);
+        if (modal) {
+          closeAllModals(); // Ensure all other modals are closed
+          modal.style.display = 'block';
+          document.body.classList.add('modal-open'); // Indicate a modal is open
+        }
+      });
+    });
+
+    // Attach event listeners to all close buttons within modals
+    document.querySelectorAll('.modal .closeBtn').forEach(function(closeButton) {
+      closeButton.addEventListener('click', function() {
+        closeButton.closest('.modal').style.display = 'none';
+        document.body.classList.remove('modal-open'); // Indicate no modals are open
+      });
+    });
+
+    // Close modals when clicking outside of them
+    document.querySelectorAll('.modal').forEach(function(modal) {
+      modal.addEventListener('click', function(event) {
+        if (event.target === modal) { // Ensure the click is on the modal background, not its children
+          modal.style.display = 'none';
+          document.body.classList.remove('modal-open');
+        }
+      });
+    });
+  }
+
+  // Initialize modal functionality
+  initializeModalEvents();
+});

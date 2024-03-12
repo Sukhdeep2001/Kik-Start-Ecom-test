@@ -157,7 +157,18 @@ body:has(.section-header .drawer-menu) .announcement-bar-section .page-width {
     padding: 0 5rem;
   }
 }
-
+.multicolumn-card__image-wrapper img {
+  border-radius: 50%;
+  width: 100px !important;
+  height: 100px !important;
+}
+.media {
+  padding-bottom: 45% !important;
+}
+.title-wrapper-with-link{
+  text-align: center !important;
+  padding-bottom: 10px !important;
+}
 .isolate {
   position: relative;
   z-index: 0;
@@ -607,7 +618,9 @@ details > * {
   text-decoration-thickness: 0.1rem;
   transition: text-decoration-thickness ease 100ms;
 }
-
+.inline-richtext{
+  text-transform: uppercase;
+}
 .underlined-link,
 .customer a {
   color: rgba(var(--color-link), var(--alpha-link));
@@ -796,8 +809,7 @@ summary::-webkit-details-marker {
 }
 
 .title-wrapper-with-link {
-  display: flex;
-  justify-content: space-between;
+  
   align-items: flex-end;
   gap: 1rem;
   margin-bottom: 3rem;
@@ -3505,3 +3517,5 @@ details-disclosure > details {
     --border-offset: 0px; /* Prevent the border from growing on buttons when this effect is on. */
   }
 }
+
+
